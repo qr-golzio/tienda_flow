@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mi Joyería | Joyas en plata y acero</title>
+<meta name="description" content="Catálogo de joyas. Compra online con pago seguro.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F1F2EF; --ink:#1E2528; --muted:#5F6B72; --line:#D3D8D8;
+  --accent:#2F5D62; --accent-ink:#FFFFFF; --tile:#E1E5E4;
+  --serif:"Marcellus","Palatino Linotype",Georgia,serif;
+  --sans:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#161C1E; --ink:#E9ECEB; --muted:#9AA6AC; --line:#2C3639; --accent:#7FB3B8; --accent-ink:#10181A; --tile:#1F282A}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 var(--sans)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 1.25rem}
+header.top{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0;border-bottom:1px solid var(--line)}
+.brand{font:400 1.35rem var(--serif);text-decoration:none;letter-spacing:.02em}
+nav a{margin-left:1.4rem;text-decoration:none;color:var(--muted);font-size:.95rem}
+nav a:hover{color:var(--ink)}
+.hero{padding:clamp(3rem,10vw,7rem) 0 clamp(2rem,6vw,4rem)}
+.hero h1{font:400 clamp(2.6rem,8vw,5.6rem)/1.02 var(--serif);margin:0 0 1.2rem;max-width:12ch;letter-spacing:-.01em}
+.hero p{max-width:46ch;color:var(--muted);font-size:1.1rem;margin:0}
+h2{font:400 1.9rem var(--serif);margin:0 0 1.5rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:2.2rem 1.5rem;padding-bottom:4rem}
+.item{display:flex;flex-direction:column}
+.pic{aspect-ratio:4/5;background:var(--tile);border-radius:2px;overflow:hidden;display:grid;place-items:center;position:relative}
+.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.pic svg{width:34%;opacity:.35}
+.item h3{font:400 1.2rem var(--serif);margin:.9rem 0 .1rem}
+.mat{color:var(--muted);font-size:.9rem;margin:0}
+.price{font-weight:600;margin:.5rem 0 .9rem}
+.buy{margin-top:auto;display:block;text-align:center;text-decoration:none;font-weight:600;padding:.7rem 1rem;background:var(--accent);color:var(--accent-ink);border-radius:2px;transition:opacity .15s}
+.buy:hover{opacity:.88}
+.buy.off{background:transparent;color:var(--muted);border:1px solid var(--line);pointer-events:none}
+.tag{position:absolute;top:.6rem;left:.6rem;background:var(--bg);color:var(--ink);font-size:.8rem;padding:.15rem .6rem;border-radius:2px}
+section.info{border-top:1px solid var(--line);padding:3rem 0}
+details{border-bottom:1px solid var(--line);padding:1rem 0;max-width:720px}
+summary{cursor:pointer;font-weight:600}
+details p{color:var(--muted);margin:.7rem 0 0}
+.contact p{max-width:48ch;color:var(--muted)}
+.wa{display:inline-block;margin-top:.4rem;padding:.7rem 1.2rem;border:1px solid var(--ink);text-decoration:none;font-weight:600;border-radius:2px}
+.wa:hover{background:var(--ink);color:var(--bg)}
+footer{border-top:1px solid var(--line);padding:1.5rem 0 2.5rem;color:var(--muted);font-size:.9rem}
+@media (max-width:520px){nav a{margin-left:1rem}}
+dialog{border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:1.5rem;border-radius:2px;width:min(92vw,380px)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+dialog label{display:block;font-weight:600;margin-bottom:.5rem}
+dialog input{width:100%;padding:.65rem;font:inherit;border:1px solid var(--line);background:transparent;color:inherit;border-radius:2px}
+dialog .fila{display:flex;gap:.6rem;margin-top:1rem}.fila .buy{flex:1;border:0;font:inherit;font-weight:600;cursor:pointer}
+.fila .buy.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+#aviso{display:none;padding:.9rem 1rem;margin-bottom:1.5rem;border:1px solid var(--accent)}
+#err{color:#B3261E;margin:.6rem 0 0;min-height:1.2em;font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#" id="marca">Mi Joyería</a>
+    <nav><a href="#catalogo">Catálogo</a><a href="#info">Envíos y cambios</a><a href="#contacto">Contacto</a></nav>
+  </header>
+
+  <section class="hero">
+    <h1>Joyas hechas para usar todos los días</h1>
+    <p>Una colección pequeña, con pocas piezas y cuidada al detalle. Pagas online de forma segura y te la enviamos a todo Chile.</p>
+  </section>
+
+  <div id="aviso" role="status"></div>
+  <section id="catalogo">
+    <h2>Catálogo</h2>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="info" id="info">
+    <h2>Envíos y cambios</h2>
+    <details open><summary>¿Cómo compro?</summary><p>Elige tu pieza y presiona Comprar. Te llevará a la página de pago segura de Flow, donde puedes pagar con tarjeta de débito, crédito o transferencia.</p></details>
+    <details><summary>Envíos</summary><p>Despachamos a todo Chile en un plazo de 2 a 5 días hábiles después del pago. Te enviamos el número de seguimiento por WhatsApp o correo. Escríbenos para coordinar el costo de envío a tu región.</p></details>
+    <details><summary>Cambios y devoluciones</summary><p>Si tu joya llega con algún defecto, escríbenos dentro de los primeros días y la cambiamos o te devolvemos el dinero. Para cambios por otros motivos, la pieza debe estar sin uso y en su empaque original.</p></details>
+    <details><summary>Cuidado de las joyas</summary><p>Evita el contacto con perfumes, cloro y agua de mar. Guárdalas por separado en su bolsa y límpialas con un paño suave y seco.</p></details>
+  </section>
+
+  <section class="info contact" id="contacto">
+    <h2>Contacto</h2>
+    <p>¿Dudas sobre medidas, materiales o envíos? Escríbenos y te respondemos lo antes posible.</p>
+    <a class="wa" id="wa" href="#">Escribir por WhatsApp</a>
+  </section>
+
+  <footer>© <span id="anio"></span> <span id="marca2">Mi Joyería</span>. Temuco, Chile.</footer>
+</div>
+
+<dialog id="dlg">
+  <form id="frm">
+    <label for="email">Tu correo, para enviarte el comprobante</label>
+    <input id="email" type="email" required autocomplete="email" placeholder="nombre@correo.cl">
+    <p id="err" role="alert"></p>
+    <div class="fila"><button type="button" class="buy sec" id="cancelar">Cancelar</button><button class="buy" id="ir">Ir a pagar</button></div>
+  </form>
+</dialog>
+<script>
+const WHATSAPP = "56912345678";   // tu número con código de país, sin + ni espacios
+const MARCA = "Mi Joyería";
+const clp = n => new Intl.NumberFormat("es-CL",{style:"currency",currency:"CLP",maximumFractionDigits:0}).format(n);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ring = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><circle cx="12" cy="14" r="6"/><path d="M9.5 6.5 12 3l2.5 3.5-2.5 2z"/></svg>';
+const grid = document.getElementById("grid"), dlg = document.getElementById("dlg");
+let elegido = null;
+
+async function cargar(){
+  try{
+    const ps = await (await fetch("/api/stock")).json();
+    grid.innerHTML = ps.map(p => `
+      <article class="item">
+        <div class="pic">${p.imagen ? `<img src="${esc(p.imagen)}" alt="${esc(p.nombre)}, ${esc(p.material)}" loading="lazy">` : ring}
+          ${p.disponible < 1 ? '<span class="tag">Agotado</span>' : p.disponible <= 2 ? `<span class="tag">Quedan ${p.disponible}</span>` : ""}</div>
+        <h3>${esc(p.nombre)}</h3><p class="mat">${esc(p.material)}</p><p class="price">${clp(p.precio)}</p>
+        ${p.disponible < 1 ? '<span class="buy off" aria-disabled="true">Sin stock</span>' : `<button class="buy" data-id="${esc(p.id)}" style="border:0;font:inherit;font-weight:600;cursor:pointer">Comprar</button>`}
+      </article>`).join("");
+  }catch{ grid.innerHTML = "<p>No pudimos cargar el catálogo. Recarga la página.</p>"; }
+}
+grid.addEventListener("click", e => { const b = e.target.closest("[data-id]"); if(!b) return; elegido = b.dataset.id; document.getElementById("err").textContent = ""; dlg.showModal(); });
+document.getElementById("cancelar").onclick = () => dlg.close();
+document.getElementById("frm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const btn = document.getElementById("ir"), err = document.getElementById("err");
+  btn.disabled = true; btn.textContent = "Un momento..."; err.textContent = "";
+  try{
+    const r = await fetch("/api/crear-pago",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:elegido,email:document.getElementById("email").value})});
+    const d = await r.json();
+    if(!r.ok) throw new Error(d.error || "Error");
+    location.href = d.url;
+  }catch(x){ err.textContent = x.message; btn.disabled = false; btn.textContent = "Ir a pagar"; cargar(); }
+});
+
+const pago = new URLSearchParams(location.search).get("pago"), av = document.getElementById("aviso");
+if(pago){ av.style.display = "block"; av.textContent = pago === "ok" ? "¡Gracias por tu compra! Te escribiremos pronto con los datos del envío." : "El pago no se completó. No se hizo ningún cobro; puedes intentarlo de nuevo."; history.replaceState(null,"","/"); }
+
+document.title = MARCA + " | Joyas";
+document.getElementById("marca").textContent = MARCA; document.getElementById("marca2").textContent = MARCA;
+document.getElementById("anio").textContent = new Date().getFullYear();
+document.getElementById("wa").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Hola, quiero consultar por una joya de tu catálogo.");
+cargar();
+</script>
+</body>
+</html>
